@@ -82,8 +82,21 @@
   .col li{display:flex;justify-content:space-between;padding:5px 0;border-top:1px solid var(--line);cursor:pointer}
   .col li:hover{color:var(--accent)}
   .col li span{color:var(--muted);font-variant-numeric:tabular-nums}
+  /* major power test (country card) */
+  .mp{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+  .mp h4{margin:0 0 6px;font-size:14px}
+  .mpv{font-size:13px;padding:7px 10px;border-radius:6px;background:#f1efe9;color:var(--ink)}
+  .mpv.ok{background:#efe6f5;border-left:3px solid #6b2d8f} .mpv.warn{background:#fdf0d8;border-left:3px solid #c77700} .mpv.no{border-left:3px solid #8a877f}
+  .mpr{margin-top:8px;font-size:13px;color:var(--ink2)} .mpr small{display:block;color:var(--muted);font-size:11.5px}
+  .mpd{margin-top:8px;font-size:12.5px;color:var(--ink2)} .mpd i{color:var(--muted);font-style:normal}
+  .mpd .pass span{color:#2a6b3a;font-weight:600} .mpd .fail span{color:#a13a2a;font-weight:600}
+  .mp details{margin-top:10px} .mp summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--accent)}
+  .mpg{margin-top:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  .mr{display:grid;grid-template-columns:18px 1fr;column-gap:6px;padding:3px 0;border-top:1px solid var(--line);font-size:12.5px}
+  .mr .mt{grid-column:2;color:var(--ink2);font-size:12px}
+  .rs{font-weight:700;text-align:center} .rs.yes{color:#2a6b3a} .rs.no{color:#a13a2a} .rs.borderline{color:#8a5a00}
   /* framework */
-  .fw{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .fw{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
   .fw .card{padding:16px}
   .fw h3{margin:0 0 8px;font-size:15px}
   .fw .cr{padding:7px 0;border-top:1px solid var(--line);display:flex;gap:10px;align-items:flex-start}
@@ -91,7 +104,11 @@
   .fw .cr .tx{flex:1}
   .fw .cr .rf{color:var(--muted);font-size:12px}
   .badge{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;background:var(--warn-bg);color:var(--warn-ink);padding:1px 6px;border-radius:4px;margin-left:4px}
+  .fw .cr .lv{font-size:12.5px;color:var(--ink2);margin-top:3px}
+  .fw .cr .rf a,.fw .cr .rf span{color:var(--accent)}
+  .fw .cr .rf{margin-top:3px} .fw .cr .rf em{color:var(--muted);font-style:normal}
   .switch{flex:none;cursor:pointer}
+  .chk{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
   /* findings */
   .fd{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
   .fd .card{padding:16px}

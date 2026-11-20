@@ -123,5 +123,35 @@ MAJOR_PILOT_COLUMNS.filter(a => a !== "EU").forEach(a => { MAJOR_PILOT[a] = buil
 const EU_BLOC = {
   name: "EU", label: "European Union (bloc)", region: "Europe", group: "Bloc",
   members: ["Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"],
+  markers: { Malta: [14.38, 35.9] },   // members too small for the 110m map are drawn as dots in bloc view
+  // Headline shown for the bloc, as worded in the brief. The per-dimension breakdown beside it is computed.
+  headline: "Not a major power: no criteria at the major power level in Dimension D",
   pilot: buildPilot("EU")
+};
+
+// ---- Sources for the existing middle power measures (the repo's original `ref` text, now with links) ----
+// Every URL here was added by us (the spec's source list covers the major power level only), except where noted.
+// confirm: true = Chris to confirm. url: null = no canonical source yet (shown as plain text with "link to add").
+const MIDDLE_SOURCES = {
+  A1: [{ label: "World Bank WDI", url: "https://data.worldbank.org/indicator/NY.GDP.MKTP.CD", confirm: true }, { label: "IMF WEO", url: "https://www.imf.org/en/Publications/WEO", confirm: true }],
+  A2: [{ label: "World Bank income classification", url: "https://datahelpdesk.worldbank.org/knowledgebase/articles/906519" }],
+  A3: [{ label: "Stanford AI Index", url: "https://hai.stanford.edu/ai-index", confirm: true }, { label: "OECD.AI talent flows", url: "https://oecd.ai/", confirm: true }],
+  A4: [{ label: "ITU internet users", url: "https://www.itu.int/en/ITU-D/Statistics/Pages/stat/default.aspx", confirm: true }],
+  A5: [{ label: "Data-labelling / annotation workforce studies", url: null }],
+  B1: [{ label: "SIA", url: "https://www.semiconductors.org/", confirm: true }, { label: "CSET", url: "https://cset.georgetown.edu/", confirm: true }],
+  B2: [{ label: "TOP500", url: "https://www.top500.org/", confirm: true }],
+  B3: [{ label: "IEA energy data", url: "https://www.iea.org/data-and-statistics", confirm: true }, { label: "USGS mineral production", url: "https://www.usgs.gov/centers/national-minerals-information-center", confirm: true }],
+  B4: [{ label: "Stanford AI Index", url: "https://hai.stanford.edu/ai-index", confirm: true }, { label: "OECD.AI", url: "https://oecd.ai/", confirm: true }],
+  B5: [{ label: "Epoch AI notable models", url: "https://epoch.ai/data", confirm: true }],
+  C1: [{ label: "UN Security Council", url: "https://main.un.org/securitycouncil/en/content/current-members", confirm: true }, { label: "OECD members", url: "https://www.oecd.org/en/about/members-partners.html", confirm: true }, { label: "G20", url: "https://g20.org/", confirm: true }],
+  C2: [{ label: "African Union", url: "https://au.int/", confirm: true }, { label: "ASEAN", url: "https://asean.org/", confirm: true }, { label: "European Union", url: "https://european-union.europa.eu/", confirm: true }],
+  C3: [{ label: "Bletchley Declaration", url: "https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration", confirm: true }, { label: "CAIDP, Hiroshima AI Process", url: "https://www.caidp.org/resources/hiroshima-ai-process/" }],
+  C4: [{ label: "International Campaign to Ban Landmines (Ottawa process)", url: "https://www.icbl.org/", confirm: true }],
+  C5: [{ label: "Qualitative judgement; no data source yet", url: null }],
+  D1: [{ label: "SIPRI Yearbook", url: "https://www.sipri.org/sites/default/files/YB26%2008%20World%20Nuclear%20Forces.pdf" }],
+  D2: [{ label: "SIPRI military expenditure", url: "https://www.sipri.org/sites/default/files/2026-04/2604_milex_2025.pdf" }],
+  D3: [{ label: "IAEA", url: "https://www.iaea.org/", confirm: true }, { label: "CTBTO", url: "https://www.ctbto.org/", confirm: true }],
+  E1: [{ label: "OECD.AI policy observatory", url: "https://oecd.ai/", confirm: true }],
+  E2: [{ label: "NIST AI Safety Institute (US) and the International Network", url: "https://www.nist.gov/artificial-intelligence-safety-institute", confirm: true }],
+  E3: [{ label: "CoE AI Convention", url: "https://www.coe.int/en/web/artificial-intelligence/the-framework-convention-on-artificial-intelligence", confirm: true }, { label: "GPAI", url: "https://gpai.ai/", confirm: true }, { label: "CAIDP, Hiroshima AI Process", url: "https://www.caidp.org/resources/hiroshima-ai-process/" }]
 };

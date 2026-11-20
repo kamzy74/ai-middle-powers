@@ -14,7 +14,7 @@
 <header>
   <h1>AI Middle Powers Explorer</h1>
   <p class="sub">BASE Fellowship · Middle powers &amp; international AI governance · working draft, Nov 2026</p>
-  <div class="draft"><b>Draft scores.</b><span>Every country score here is an illustrative first-pass judgement on a 0–3 scale, made to test whether the framework holds up. None is verified data yet. Each criterion lists the source the final score should come from.</span></div>
+  <div class="draft"><b>Draft scores.</b><span>Every country score here is an illustrative first-pass judgement on a 0–3 scale, made to test whether the framework holds up. None is verified data yet. Each criterion lists the source the final score should come from. The major power tier is separate: its pilot results for 9 actors are sourced from the team&rsquo;s spec, but the thresholds are proposals still under review with the mentor.</span></div>
   <div class="defn" id="defn"></div>
 </header>
 <nav id="nav">
@@ -31,6 +31,7 @@
     <div class="maptools">
       <label for="colorBy">Colour by</label>
       <select id="colorBy"></select>
+      <label class="chk"><input type="checkbox" id="blocToggle"> Show the EU as one bloc</label>
       <span class="hint">Click a country to open its card.</span>
     </div>
     <div class="mapwrap">
@@ -55,6 +56,7 @@
 
   <section class="view" id="v-candidates">
     <p class="hint" style="margin:0 0 12px">Overall score = weighted mean of the five dimension scores (each 0–100). Change the cut-offs in Scoring settings.</p>
+    <div id="blocRow"></div>
     <div class="cols" id="cols"></div>
   </section>
 
