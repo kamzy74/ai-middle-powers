@@ -1,6 +1,6 @@
   :root{
     --bg:#f7f6f2; --surface:#ffffff; --ink:#1d1d1b; --ink2:#55534e; --muted:#8a877f; --line:#e3e0d8;
-    --t0:#86b6ef; --t1:#3987e5; --t2:#1c5cab; --t3:#d98a00; --t4:#4b1d6b; --none:#e6e3dc;
+    --t0:#33c0c7; --t1:#4f83ce; --t2:#0c4815; --t3:#c98000; --t4:#6b2d8f; --none:#e6e3dc;
     --accent:#1c5cab; --warn-bg:#fff6e0; --warn-ink:#7a5300;
   }
   *{box-sizing:border-box}
@@ -52,12 +52,12 @@
   .dimhead .car{color:var(--muted);transition:transform .15s;width:10px}
   .dim.open .car{transform:rotate(90deg)}
   .bar{height:8px;background:#eeece6;border-radius:4px;overflow:hidden;margin-top:6px}
-  .bar span{display:block;height:100%;background:var(--t2);border-radius:4px}
+  .bar span{display:block;height:100%;background:var(--accent);border-radius:4px}
   .crit{display:none;margin-top:8px}
   .dim.open .crit{display:block}
   .crit div.r{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:3px 0;color:var(--ink2)}
   .crit .dots{white-space:nowrap;letter-spacing:2px}
-  .crit .dots b{color:var(--t2)} .crit .dots s{color:#d7d4cc;text-decoration:none}
+  .crit .dots b{color:var(--accent)} .crit .dots s{color:#d7d4cc;text-decoration:none}
   .crit .ex{opacity:.5}
   .crit .ref{font-size:11.5px;color:var(--muted);margin:-2px 0 4px}
   /* explore */
@@ -86,7 +86,7 @@
   .mp{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
   .mp h4{margin:0 0 6px;font-size:14px}
   .mpv{font-size:13px;padding:7px 10px;border-radius:6px;background:#f1efe9;color:var(--ink)}
-  .mpv.ok{background:#efe6f5;border-left:3px solid #6b2d8f} .mpv.warn{background:#fdf0d8;border-left:3px solid #c77700} .mpv.no{border-left:3px solid #8a877f}
+  .mpv.ok{background:#efe6f5;border-left:3px solid #6b2d8f} .mpv.warn{background:#fdf0d8;border-left:3px solid #c98000} .mpv.no{border-left:3px solid #8a877f}
   .mpr{margin-top:8px;font-size:13px;color:var(--ink2)} .mpr small{display:block;color:var(--muted);font-size:11.5px}
   .mpd{margin-top:8px;font-size:12.5px;color:var(--ink2)} .mpd i{color:var(--muted);font-style:normal}
   .mpd .pass span{color:#2a6b3a;font-weight:600} .mpd .fail span{color:#a13a2a;font-weight:600}

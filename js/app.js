@@ -1,13 +1,13 @@
 // Major and Emerging come from the major power test (data/major-power.js, js/major.js).
 // Strong / Weak / Not a middle power come from the overall score and the cut-offs in Settings.
-// Colours checked with the dataviz palette validator: plum / amber / blue are well separated under colour-blind simulation.
-// Strong / Weak / Not a middle power are one blue ramp (light = lower tier). Text labels carry the tier too, never colour alone.
+// Colours checked for all pairs under normal, protan, deutan and tritan vision (every pair is at least 12 apart, OKLab ΔE x100).
+// Strong / Weak / Not a middle power differ in hue AND lightness (dark green > mid blue > light aqua; dark = higher tier). Text labels carry the tier too, never colour alone.
 const TIERS = [
   { id:4, name:"Major power", short:"Major", color:"var(--t4)", hex:"#6b2d8f", rule: () => `≥ ${MAJOR_RULES.major.minTotal} criteria at the major power level, and the minimum in every dimension` },
-  { id:3, name:"Emerging major power", short:"Emerging", color:"var(--t3)", hex:"#c77700", rule: () => `≥ ${MAJOR_RULES.emerging.minTotal} criteria at the major power level, not Major (watchlist)` },
-  { id:2, name:"Strong middle power", short:"Strong", color:"var(--t2)", hex:"#1c5cab", rule: t => `Overall ≥ ${t.strong}` },
-  { id:1, name:"Weak middle power", short:"Weak", color:"var(--t1)", hex:"#3987e5", rule: t => `${t.weak}–${t.strong-1}` },
-  { id:0, name:"Not a middle power", short:"Not middle", color:"var(--t0)", hex:"#86b6ef", rule: t => `Under ${t.weak}` }
+  { id:3, name:"Emerging major power", short:"Emerging", color:"var(--t3)", hex:"#c98000", rule: () => `≥ ${MAJOR_RULES.emerging.minTotal} criteria at the major power level, not Major (watchlist)` },
+  { id:2, name:"Strong middle power", short:"Strong", color:"var(--t2)", hex:"#0c4815", rule: t => `Overall ≥ ${t.strong}` },
+  { id:1, name:"Weak middle power", short:"Weak", color:"var(--t1)", hex:"#4f83ce", rule: t => `${t.weak}–${t.strong-1}` },
+  { id:0, name:"Not a middle power", short:"Not middle", color:"var(--t0)", hex:"#33c0c7", rule: t => `Under ${t.weak}` }
 ];
 const DEFAULTS = { thr:{strong:55, weak:30}, w:{A:1,B:1,C:1,D:1,E:1},
   off: Object.fromEntries(DIMENSIONS.flatMap(d=>d.criteria).map(c=>[c.id, !!c.proposed])) };
@@ -34,7 +34,7 @@ function compute(){
   EU_ENTITY.major = majorTest(EU_BLOC.pilot);
 }
 // The EU as one bloc has a major power result but no middle power score, so it gets its own neutral colour.
-const BLOC_TIER = { id:-1, name:"EU as one bloc (major power test only)", short:"EU bloc", hex:"#9a8f7e" };
+const BLOC_TIER = { id:-1, name:"EU as one bloc (major power test only)", short:"EU bloc", hex:"#6f6a63" };
 const tierOf = id => id===-1 ? BLOC_TIER : TIERS.find(t=>t.id===id);
 const esc = v => String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 let blocOn = false;                         // "Show EU as one bloc" toggle

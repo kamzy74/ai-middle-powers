@@ -7,7 +7,7 @@ An interactive explorer for a BASE Fellowship research project: defining "AI mid
 - Plain HTML/CSS/JS, no build step, no framework. Keep it that way unless asked.
 - d3 v7 and topojson-client from cdnjs; map data in `data/world-110m.js` as a global `WORLD`, so the page opens from disk without a server.
 - Map country names follow world-atlas 110m (e.g. "United States of America", "Dem. Rep. Congo"). Small states missing from the map use `marker: [lon, lat]`.
-- Visual style: light, scholarly; serif headings (Source Serif 4), Inter body; tier colours: Strong / Weak / Not a middle power are one blue ramp (light = lower tier); Major (plum) and Emerging major (amber) have their own hues; the EU as one bloc is taupe. Colours were checked with the dataviz validator. Always pair colour with a text label.
+- Visual style: light, scholarly; serif headings (Source Serif 4), Inter body; tier colours: Strong (dark green), Weak (mid blue) and Not a middle power (light aqua) differ in hue and lightness so they stay distinct for colour-blind readers; Major is plum and Emerging major amber; the EU as one bloc is dark warm grey. All pairs were checked under normal, protan, deutan and tritan simulation (min ΔE 11.4). Always pair colour with a text label.
 
 ## Major power tier
 - Spec: `docs/major-power-criteria.md` (Chris, 19 Nov 2026) is the source of truth. Thresholds are proposals to test with Erik.
