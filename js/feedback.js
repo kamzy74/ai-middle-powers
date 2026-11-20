@@ -34,7 +34,21 @@ function getFeedbackCounts() { return {}; }
   const status = document.getElementById("fbStatus"), send = document.getElementById("fbSend");
   if (!feedbackConfigured()) {
     send.disabled = true;
-    status.textContent = "The form is not connected yet: the team still needs to add the form service URL in data/feedback-config.js.";
+    document.getElementById("fbNotice").hidden = false;
+  }
+  // After a send, echo what was submitted. The link is clickable, but only for http(s) URLs.
+  function showSummary(d) {
+    const box = document.getElementById("fbSummary"), label = { "add-source": "Add a source", "different-tier": "Argue a different tier", "other": "Other" };
+    box.replaceChildren();
+    const add = (k, v) => { const row = document.createElement("div"); const b = document.createElement("b"); b.textContent = k + ": "; row.append(b, v); box.appendChild(row); };
+    const h = document.createElement("h4"); h.textContent = "What you sent"; box.appendChild(h);
+    add("Country", d.country); add("Type", label[d.type] || d.type); add("Message", d.message);
+    if (d.link) {
+      if (/^https?:\/\//i.test(d.link)) { const a = document.createElement("a"); a.href = d.link; a.target = "_blank"; a.rel = "noopener noreferrer"; a.textContent = d.link; add("Link", a); }
+      else add("Link", d.link);
+    }
+    if (d.name) add("Name", d.name);
+    box.hidden = false;
   }
   host.onsubmit = async e => {
     e.preventDefault();
@@ -46,6 +60,7 @@ function getFeedbackCounts() { return {}; }
     try {
       const r = await fetch(FEEDBACK_FORM_URL, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(data) });
       if (!r.ok) throw new Error("HTTP " + r.status);
+      showSummary(data);
       host.reset(); status.textContent = "Thank you. Your feedback was sent to the team.";
     } catch (err) {
       status.textContent = "Sorry, that did not send. Please try again later.";

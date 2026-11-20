@@ -72,7 +72,8 @@
   </section>
   <section class="view" id="v-feedback">
     <p class="hint" style="margin:0 0 12px">Think a score is wrong, or have a source we should use? Tell us. The team reads every submission. Feedback does not change any score or tier automatically.</p>
-    <div class="card fb"><form id="feedbackForm"></form></div>
+    <div class="draft" id="fbNotice" hidden><b>Form not connected.</b><span>Feedback cannot be sent yet. The team still needs to add the form service URL in <code>data/feedback-config.js</code>.</span></div>
+    <div class="card fb"><form id="feedbackForm"></form><div id="fbSummary" hidden></div></div>
   </section>
 </main>
 

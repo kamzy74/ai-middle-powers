@@ -127,7 +127,7 @@ function majorSection(m, results, headline){
     <div class="mpr"><b>${m.firm}</b> of ${m.total} firm · <b>${m.firm}–${m.withBorderline}</b> with borderline<small>Borderline results do not count toward the tier. They only widen the range.</small></div>
     <div class="mpd">${DIMENSIONS.map(d=>{ const b=m.byDim[d.id]; return `<div class="${b.ok?"pass":"fail"}"><span>${b.ok?"✓ Met":"✗ Not met"}</span> ${d.id}. ${d.short}: ${b.yes} of ${b.total} <i>(minimum ${b.need})</i></div>`; }).join("")}</div>
     <details open><summary>All ${m.total} criteria at the major power level</summary>
-    ${DIMENSIONS.map(d=>`<div class="mpg">${d.id}. ${d.name}</div>` + d.criteria.filter(cr=>MAJOR_LEVEL[cr.id]).map(cr=>{ const x=results[cr.id]; return `<div class="mr"><span class="rs ${x.r}" role="img" aria-label="${word[x.r]}" title="${word[x.r]}">${sym[x.r]}</span><span class="mn">${cr.id} ${esc(cr.name)}</span><span class="mt">${esc(x.note)||"<i>no note</i>"}</span></div>`; }).join("")).join("")}
+    ${DIMENSIONS.map(d=>`<div class="mpg">${d.id}. ${d.name}</div>` + d.criteria.filter(cr=>MAJOR_LEVEL[cr.id]).map(cr=>{ const x=results[cr.id]; return `<div class="mr"><span class="rs ${x.r}" role="img" aria-label="${word[x.r]}" title="${word[x.r]}">${sym[x.r]}</span><span class="mn">${cr.id} ${esc(cr.name)}</span><span class="mt">${esc(x.note)||"<i>no note</i>"}</span><span class="mt ms">Source: ${srcLinks(MAJOR_LEVEL[cr.id].sources)}</span></div>`; }).join("")).join("")}
     </details></div>`;
 }
 function renderBlocCard(c){
@@ -153,7 +153,7 @@ function renderCard(){
         <div class="bar"><span style="width:${c.dim[d.id]}%"></span></div>
         <div class="crit">${d.criteria.map((cr,i)=>`
           <div class="r ${S.off[cr.id]?"ex":""}"><span>${cr.id} ${cr.name}${cr.proposed?'<span class="badge">proposed</span>':''}${S.off[cr.id]&&!cr.proposed?'<span class="badge">off</span>':''}</span><span class="dots" title="${c.s[d.id][i]} of 3">${dots(c.s[d.id][i])}</span></div>
-          <div class="ref">${cr.ref}</div>`).join("")}</div>
+          <div class="ref">Source: ${srcLinks(MIDDLE_SOURCES[cr.id]||[])}</div>`).join("")}</div>
       </div>`).join("") + `</div>`
     + (c.major ? majorSection(c.major, MAJOR_PILOT[c.name]) : `<p class="hint" style="margin:12px 0 0">Major power level: not assessed. The pilot covers 9 actors so far, so this country goes straight to the middle power score.</p>`)
     + `<p class="hint" style="margin:10px 0 0">Click a dimension to see its criteria. Scores are draft (0–3).</p>`;
