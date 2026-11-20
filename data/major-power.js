@@ -131,13 +131,13 @@ const EU_BLOC = {
 
 // ---- Sources for the existing middle power measures (the repo's original `ref` text, now with links) ----
 // Every URL here was added by us (the spec's source list covers the major power level only), except where noted.
-// confirm: true = Chris to confirm. url: null = no canonical source yet (shown as plain text with "link to add").
+// confirm: true = Chris to confirm. url: null = no canonical source yet (shown as plain text with "link to add"). None remain at the moment.
 const MIDDLE_SOURCES = {
   A1: [{ label: "World Bank WDI", url: "https://data.worldbank.org/indicator/NY.GDP.MKTP.CD", confirm: true }, { label: "IMF WEO", url: "https://www.imf.org/en/Publications/WEO", confirm: true }],
   A2: [{ label: "World Bank income classification", url: "https://datahelpdesk.worldbank.org/knowledgebase/articles/906519" }],
   A3: [{ label: "Stanford AI Index", url: "https://hai.stanford.edu/ai-index", confirm: true }, { label: "OECD.AI talent flows", url: "https://oecd.ai/", confirm: true }],
   A4: [{ label: "ITU internet users", url: "https://www.itu.int/en/ITU-D/Statistics/Pages/stat/default.aspx", confirm: true }],
-  A5: [{ label: "Data-labelling / annotation workforce studies", url: null }],
+  A5: [{ label: "Fairwork Cloudwork Ratings 2023 (Oxford Internet Institute): data-labelling and annotation platforms", url: "https://fairwork.oii.ox.ac.uk/en/fw/publications/fairwork-cloudwork-ratings-2023-work-in-the-planetary-labour-market/", confirm: true }],
   B1: [{ label: "SIA", url: "https://www.semiconductors.org/", confirm: true }, { label: "CSET", url: "https://cset.georgetown.edu/", confirm: true }],
   B2: [{ label: "TOP500", url: "https://www.top500.org/", confirm: true }],
   B3: [{ label: "IEA energy data", url: "https://www.iea.org/data-and-statistics", confirm: true }, { label: "USGS mineral production", url: "https://www.usgs.gov/centers/national-minerals-information-center", confirm: true }],
@@ -147,7 +147,10 @@ const MIDDLE_SOURCES = {
   C2: [{ label: "African Union", url: "https://au.int/", confirm: true }, { label: "ASEAN", url: "https://asean.org/", confirm: true }, { label: "European Union", url: "https://european-union.europa.eu/", confirm: true }],
   C3: [{ label: "Bletchley Declaration", url: "https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration", confirm: true }, { label: "CAIDP, Hiroshima AI Process", url: "https://www.caidp.org/resources/hiroshima-ai-process/" }],
   C4: [{ label: "International Campaign to Ban Landmines (Ottawa process)", url: "https://www.icbl.org/", confirm: true }],
-  C5: [{ label: "Qualitative judgement; no data source yet", url: null }],
+  // C5 is a qualitative judgement. There is no standard index, so these are framework sources, not data sources.
+  C5: [{ label: "Brookings, Middle power AI agency: preserving choice between the US and China", url: "https://www.brookings.edu/articles/middle-power-ai-agency-preserving-choice-between-the-united-states-and-china/", confirm: true },
+       { label: "GMF, Middle Powers\u2019 Bounded Ambition in AI", url: "https://gmfus.org/news/middle-powers-bounded-ambition-ai", confirm: true },
+       { label: "Chatham House, How middle powers can weather US and Chinese AI dominance", url: "https://chathamhouse.org/2026/02/how-middle-powers-can-weather-us-and-chinese-ai-dominance", confirm: true }],
   D1: [{ label: "SIPRI Yearbook", url: "https://www.sipri.org/sites/default/files/YB26%2008%20World%20Nuclear%20Forces.pdf" }],
   D2: [{ label: "SIPRI military expenditure", url: "https://www.sipri.org/sites/default/files/2026-04/2604_milex_2025.pdf" }],
   D3: [{ label: "IAEA", url: "https://www.iaea.org/", confirm: true }, { label: "CTBTO", url: "https://www.ctbto.org/", confirm: true }],
