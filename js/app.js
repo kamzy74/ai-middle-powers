@@ -1,10 +1,14 @@
+// Major and Emerging come from the major power test (data/major-power.js, js/major.js).
+// Strong / Weak / Not a middle power come from the overall score and the cut-offs in Settings.
+// Colours here are provisional until the UI task (colour-blind check and legend update).
 const TIERS = [
-  { id:3, name:"Major power", short:"Major", color:"var(--t3)", hex:"#0d366b", rule: t => `Overall ≥ ${t.major}` },
-  { id:2, name:"Strong middle power", short:"Strong", color:"var(--t2)", hex:"#1c5cab", rule: t => `${t.strong}–${t.major-1}` },
+  { id:4, name:"Major power", short:"Major", color:"var(--t4)", hex:"#4b1d6b", rule: () => `≥ ${MAJOR_RULES.major.minTotal} criteria at the major power level, and the minimum in every dimension` },
+  { id:3, name:"Emerging major power", short:"Emerging", color:"var(--t3)", hex:"#d98a00", rule: () => `≥ ${MAJOR_RULES.emerging.minTotal} criteria at the major power level, not Major (watchlist)` },
+  { id:2, name:"Strong middle power", short:"Strong", color:"var(--t2)", hex:"#1c5cab", rule: t => `Overall ≥ ${t.strong}` },
   { id:1, name:"Weak middle power", short:"Weak", color:"var(--t1)", hex:"#3987e5", rule: t => `${t.weak}–${t.strong-1}` },
-  { id:0, name:"Below threshold", short:"Below", color:"var(--t0)", hex:"#86b6ef", rule: t => `Under ${t.weak}` }
+  { id:0, name:"Not a middle power", short:"Not middle", color:"var(--t0)", hex:"#86b6ef", rule: t => `Under ${t.weak}` }
 ];
-const DEFAULTS = { thr:{major:85, strong:55, weak:30}, w:{A:1,B:1,C:1,D:1,E:1},
+const DEFAULTS = { thr:{strong:55, weak:30}, w:{A:1,B:1,C:1,D:1,E:1},
   off: Object.fromEntries(DIMENSIONS.flatMap(d=>d.criteria).map(c=>[c.id, !!c.proposed])) };
 let S = JSON.parse(JSON.stringify(DEFAULTS));
 try { const sv = JSON.parse(localStorage.getItem("mp-settings")||"null"); if (sv && sv.thr) S = Object.assign(S, sv); } catch(e){}
@@ -21,7 +25,10 @@ function compute(){
     });
     const wsum = DIMENSIONS.reduce((a,d)=>a+S.w[d.id],0) || 1;
     c.overall = Math.round(DIMENSIONS.reduce((a,d)=>a+c.dim[d.id]*S.w[d.id],0)/wsum);
-    c.tier = c.overall>=S.thr.major?3 : c.overall>=S.thr.strong?2 : c.overall>=S.thr.weak?1 : 0;
+    // The major power test runs first. Countries not assessed, or that fail it, use the existing score-based tiers.
+    c.major = MAJOR_PILOT[c.name] ? majorTest(MAJOR_PILOT[c.name]) : null;
+    c.tier = c.major && c.major.isMajor ? 4 : c.major && c.major.isEmerging ? 3
+           : c.overall>=S.thr.strong ? 2 : c.overall>=S.thr.weak ? 1 : 0;
   });
 }
 const tierOf = id => TIERS.find(t=>t.id===id);
@@ -108,7 +115,7 @@ function filtered(){
     (!q.value || c.label.toLowerCase().includes(q.value.toLowerCase())) &&
     (!grpFilter.value || c.group===grpFilter.value) &&
     (tierFilter.value==="" || c.tier===+tierFilter.value) &&
-    (!dq || (c.dim[dq] >= S.thr.strong && c.tier!==3)));
+    (!dq || (c.dim[dq] >= S.thr.strong && c.tier!==4)));
 }
 function renderTable(){
   const rows = filtered().sort((a,b)=>{
@@ -126,8 +133,8 @@ function renderTable(){
 }
 document.getElementById("copyCsv").onclick = async () => {
   const crit = DIMENSIONS.flatMap(d=>d.criteria.map((c,i)=>({d:d.id,i,id:c.id})));
-  const head = ["country","group","region",...crit.map(c=>c.id),...DIMENSIONS.map(d=>"dim_"+d.id),"overall","tier"];
-  const lines = [head.join(",")].concat(COUNTRIES.map(c=>[`"${c.label}"`,`"${c.group}"`,`"${c.region}"`,...crit.map(x=>c.s[x.d][x.i]),...DIMENSIONS.map(d=>c.dim[d.id]),c.overall,`"${tierOf(c.tier).name}"`].join(",")));
+  const head = ["country","group","region",...crit.map(c=>c.id),...DIMENSIONS.map(d=>"dim_"+d.id),"overall","major_firm","major_with_borderline","tier"];
+  const lines = [head.join(",")].concat(COUNTRIES.map(c=>[`"${c.label}"`,`"${c.group}"`,`"${c.region}"`,...crit.map(x=>c.s[x.d][x.i]),...DIMENSIONS.map(d=>c.dim[d.id]),c.overall,c.major?c.major.firm:"",c.major?c.major.withBorderline:"",`"${tierOf(c.tier).name}"`].join(",")));
   try { await navigator.clipboard.writeText(lines.join("\n")); toast("Copied CSV for all " + COUNTRIES.length + " countries"); }
   catch(e){ toast("Copy was blocked by the browser"); }
 };
@@ -167,8 +174,7 @@ function slider(host, label, val, min, max, step, on){
 }
 function renderSettings(){
   const thr = document.getElementById("thr"), wts = document.getElementById("wts"); thr.innerHTML=""; wts.innerHTML="";
-  slider(thr,"Major power (ceiling)",S.thr.major,50,100,1,v=>{S.thr.major=Math.max(v,S.thr.strong+1);save();refresh(false);});
-  slider(thr,"Strong middle power",S.thr.strong,20,95,1,v=>{S.thr.strong=Math.min(Math.max(v,S.thr.weak+1),S.thr.major-1);save();refresh(false);});
+  slider(thr,"Strong middle power",S.thr.strong,20,100,1,v=>{S.thr.strong=Math.max(v,S.thr.weak+1);save();refresh(false);});
   slider(thr,"Weak middle power (floor)",S.thr.weak,0,90,1,v=>{S.thr.weak=Math.min(v,S.thr.strong-1);save();refresh(false);});
   DIMENSIONS.forEach(d=>slider(wts,`${d.id}. ${d.name}`,S.w[d.id],0,3,0.5,v=>{S.w[d.id]=v;save();refresh(false);}));
 }
