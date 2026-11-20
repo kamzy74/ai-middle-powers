@@ -23,6 +23,7 @@
   <a href="#candidates" data-v="candidates">Candidates</a>
   <a href="#framework" data-v="framework">Framework</a>
   <a href="#findings" data-v="findings">Findings &amp; gaps</a>
+  <a href="#feedback" data-v="feedback">Feedback</a>
   <span class="sp"></span>
   <button id="openSettings">Scoring settings</button>
 </nav>
@@ -69,6 +70,10 @@
     <p class="hint" style="margin:0 0 12px">Emerging findings and open research questions from the literature review, the 9 Nov mentor meeting and the test scoring.</p>
     <div class="fd" id="fd"></div>
   </section>
+  <section class="view" id="v-feedback">
+    <p class="hint" style="margin:0 0 12px">Think a score is wrong, or have a source we should use? Tell us. The team reads every submission. Feedback does not change any score or tier automatically.</p>
+    <div class="card fb"><form id="feedbackForm"></form></div>
+  </section>
 </main>
 
 <aside id="settings" aria-label="Scoring settings">
@@ -87,6 +92,8 @@
 <script src="data/major-power.js"></script>
 <script src="js/data.js"></script>
 <script src="js/major.js"></script>
+<script src="data/feedback-config.js"></script>
+<script src="js/feedback.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

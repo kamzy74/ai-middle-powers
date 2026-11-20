@@ -263,7 +263,7 @@ document.getElementById("reset").onclick=()=>{ S=JSON.parse(JSON.stringify(DEFAU
 /* ---------- ROUTING ---------- */
 function route(){
   const v = (location.hash||"#map").slice(1);
-  const ok = ["map","explore","candidates","framework","findings"].includes(v) ? v : "map";
+  const ok = ["map","explore","candidates","framework","findings","feedback"].includes(v) ? v : "map";
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on", s.id==="v-"+ok));
   document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===ok));
 }

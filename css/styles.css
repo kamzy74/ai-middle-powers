@@ -109,6 +109,15 @@
   .fw .cr .rf{margin-top:3px} .fw .cr .rf em{color:var(--muted);font-style:normal}
   .switch{flex:none;cursor:pointer}
   .chk{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+  /* feedback */
+  .fb{padding:18px;max-width:560px}
+  .fb form{display:flex;flex-direction:column;gap:6px;position:relative}
+  .fb label{font-weight:600;font-size:13px;margin-top:8px}
+  .fb .opt{font-weight:400;color:var(--muted)}
+  .fb input[type=text],.fb input[type=url],.fb select,.fb textarea{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+  .fb .fbrow{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+  .fb #fbStatus{font-size:12.5px;color:var(--ink2)}
+  .fb button:disabled{opacity:.55;cursor:not-allowed}
   /* findings */
   .fd{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
   .fd .card{padding:16px}
