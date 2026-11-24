@@ -33,8 +33,7 @@ function getFeedbackCounts() { return {}; }
     <div class="fbrow"><button type="submit" id="fbSend">Send feedback</button><span id="fbStatus" role="status" aria-live="polite"></span></div>`;
   const status = document.getElementById("fbStatus"), send = document.getElementById("fbSend");
   if (!feedbackConfigured()) {
-    send.disabled = true;
-    document.getElementById("fbNotice").hidden = false;
+    send.disabled = true;     // the tab itself is hidden while no form service is connected (see route() in js/app.js)
   }
   // After a send, echo what was submitted. The link is clickable, but only for http(s) URLs.
   function showSummary(d) {

@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Middle Powers Explorer (Draft)</title>
+<title>AI Middle Powers Explorer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%236b2d8f%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%278%27 fill=%27%230c4815%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%273%27 fill=%27%2333c0c7%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
@@ -13,8 +14,7 @@
 <body>
 <header>
   <h1>AI Middle Powers Explorer</h1>
-  <p class="sub">BASE Fellowship · Middle powers &amp; international AI governance · working draft, Nov 2026</p>
-  <div class="draft"><b>Draft scores.</b><span>Every country score here is an illustrative first-pass judgement on a 0–3 scale, made to test whether the framework holds up. None is verified data yet. Each criterion lists the source the final score should come from. The major power tier is separate: its pilot results for 9 actors are sourced from the team&rsquo;s spec, but the thresholds are proposals still under review with the mentor.</span></div>
+  <p class="sub">BASE Fellowship · Middle powers &amp; international AI governance · Updated November 2026</p>
   <div class="defn" id="defn"></div>
 </header>
 <nav id="nav">
@@ -23,7 +23,7 @@
   <a href="#candidates" data-v="candidates">Candidates</a>
   <a href="#framework" data-v="framework">Framework</a>
   <a href="#findings" data-v="findings">Findings &amp; gaps</a>
-  <a href="#feedback" data-v="feedback">Feedback</a>
+  <a href="#feedback" data-v="feedback" id="navFeedback">Feedback</a>
   <span class="sp"></span>
   <button id="openSettings">Scoring settings</button>
 </nav>
@@ -36,9 +36,11 @@
       <span class="hint">Click a country to open its card.</span>
     </div>
     <div class="mapwrap">
-      <div class="card"><svg id="map" viewBox="0 0 960 500" role="img" aria-label="World map of draft middle-power tiers"></svg><div class="legend" id="legend"></div></div>
+      <div class="mapcol"><div class="card"><svg id="map" viewBox="0 0 960 500" role="img" aria-label="World map of AI middle-power tiers"></svg><div class="legend" id="legend"></div></div>
+      <div id="mapTiers"></div></div>
       <aside class="card" id="cc"><div class="empty">Select a country on the map</div></aside>
     </div>
+    <div id="mapExtra"></div>
   </section>
 
   <section class="view" id="v-explore">
@@ -72,10 +74,10 @@
   </section>
   <section class="view" id="v-feedback">
     <p class="hint" style="margin:0 0 12px">Think a score is wrong, or have a source we should use? Tell us. The team reads every submission. Feedback does not change any score or tier automatically.</p>
-    <div class="draft" id="fbNotice" hidden><b>Form not connected.</b><span>Feedback cannot be sent yet. The team still needs to add the form service URL in <code>data/feedback-config.js</code>.</span></div>
     <div class="card fb"><form id="feedbackForm"></form><div id="fbSummary" hidden></div></div>
   </section>
 </main>
+<footer id="siteFooter"></footer>
 
 <aside id="settings" aria-label="Scoring settings">
   <div style="display:flex;justify-content:space-between;align-items:center"><strong>Scoring settings</strong><button id="closeSettings">Close</button></div>

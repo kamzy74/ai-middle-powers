@@ -15,7 +15,7 @@ let S = JSON.parse(JSON.stringify(DEFAULTS));
 try { const sv = JSON.parse(localStorage.getItem("mp-settings")||"null"); if (sv && sv.thr) S = Object.assign(S, sv); } catch(e){}
 const save = () => { try { localStorage.setItem("mp-settings", JSON.stringify(S)); } catch(e){} };
 
-let selected = null;
+let selected = "United States of America";   // shown on first load so visitors see what a card looks like
 
 function compute(){
   COUNTRIES.forEach(c => {
@@ -122,11 +122,11 @@ function majorVerdict(m){
 function majorSection(m, results, headline){
   const sym = {yes:"✓", no:"✗", borderline:"~"}, word = {yes:"At the major power level", no:"Below the major power level", borderline:"Borderline or data gap"};
   const v = majorVerdict(m);
-  return `<div class="mp"><h4>Major power test <span class="badge">pilot</span></h4>
+  return `<div class="mp"><h4>Major power test</h4>
     <div class="mpv ${v.cls}">${esc(headline || v.text)}</div>
     <div class="mpr"><b>${m.firm}</b> of ${m.total} firm · <b>${m.firm}–${m.withBorderline}</b> with borderline<small>Borderline results do not count toward the tier. They only widen the range.</small></div>
     <div class="mpd">${DIMENSIONS.map(d=>{ const b=m.byDim[d.id]; return `<div class="${b.ok?"pass":"fail"}"><span>${b.ok?"✓ Met":"✗ Not met"}</span> ${d.id}. ${d.short}: ${b.yes} of ${b.total} <i>(minimum ${b.need})</i></div>`; }).join("")}</div>
-    <details open><summary>All ${m.total} criteria at the major power level</summary>
+    <details><summary>All ${m.total} criteria at the major power level</summary>
     ${DIMENSIONS.map(d=>`<div class="mpg">${d.id}. ${d.name}</div>` + d.criteria.filter(cr=>MAJOR_LEVEL[cr.id]).map(cr=>{ const x=results[cr.id]; return `<div class="mr"><span class="rs ${x.r}" role="img" aria-label="${word[x.r]}" title="${word[x.r]}">${sym[x.r]}</span><span class="mn">${cr.id} ${esc(cr.name)}</span><span class="mt">${esc(x.note)||"<i>no note</i>"}</span><span class="mt ms">Source: ${srcLinks(MAJOR_LEVEL[cr.id].sources)}</span></div>`; }).join("")).join("")}
     </details></div>`;
 }
@@ -136,7 +136,7 @@ function renderBlocCard(c){
     <div class="tierpill"><i style="background:${t.hex}"></i>${t.name}</div>
     <p class="hint" style="margin:10px 0 0">Middle power score: not assessed for the bloc. Turn the bloc view off to see member countries on their own.</p>
     ${majorSection(c.major, EU_BLOC.pilot, EU_BLOC.headline)}
-    <p class="hint" style="margin:10px 0 0">The headline is the brief's wording. The breakdown above is computed from the pilot data.</p>`;
+    <p class="hint" style="margin:10px 0 0">The headline is the brief's wording. The breakdown above is computed from the assessment data.</p>`;
 }
 function renderCard(){
   const el = document.getElementById("cc");
@@ -155,8 +155,8 @@ function renderCard(){
           <div class="r ${S.off[cr.id]?"ex":""}"><span>${cr.id} ${cr.name}${cr.proposed?'<span class="badge">proposed</span>':''}${S.off[cr.id]&&!cr.proposed?'<span class="badge">off</span>':''}</span><span class="dots" title="${c.s[d.id][i]} of 3">${dots(c.s[d.id][i])}</span></div>
           <div class="ref">Source: ${srcLinks(MIDDLE_SOURCES[cr.id]||[])}</div>`).join("")}</div>
       </div>`).join("") + `</div>`
-    + (c.major ? majorSection(c.major, MAJOR_PILOT[c.name]) : `<p class="hint" style="margin:12px 0 0">Major power level: not assessed. The pilot covers 9 actors so far, so this country goes straight to the middle power score.</p>`)
-    + `<p class="hint" style="margin:10px 0 0">Click a dimension to see its criteria. Scores are draft (0–3).</p>`;
+    + (c.major ? majorSection(c.major, MAJOR_PILOT[c.name]) : `<p class="hint" style="margin:12px 0 0">Major power level: not assessed. The major power test covers 9 actors so far, so this country is placed by its middle power score.</p>`)
+    + `<p class="hint" style="margin:10px 0 0">Click a dimension to see its criteria. Scores are on a 0–3 scale.</p>`;
   el.querySelectorAll(".dimhead").forEach(h => h.onclick = () => h.parentElement.classList.toggle("open"));
 }
 
@@ -214,7 +214,7 @@ function renderCandidates(){
 /* ---------- FRAMEWORK ---------- */
 // Every source is a link that opens in a new tab. url:null means no canonical source yet, shown as plain text.
 function srcLinks(list){
-  return list.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">${esc(x.label)}</a>` : `<span>${esc(x.label)} <em>(link to add)</em></span>`).join(" · ");
+  return list.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">${esc(x.label)}</a>` : `<span>${esc(x.label)} </span>`).join(" · ");
 }
 function renderFramework(){
   const n = DIMENSIONS.flatMap(d=>d.criteria).filter(c=>!S.off[c.id]).length;
@@ -227,12 +227,12 @@ function renderFramework(){
       ${ml && ml.open ? `<div class="rf" style="color:var(--warn-ink)">${esc(ml.open)}</div>` : ""}
       ${c.note?`<div class="rf" style="color:var(--warn-ink)">${esc(c.note)}</div>`:""}</div>
     <input type="checkbox" class="switch" data-c="${c.id}" ${S.off[c.id]?"":"checked"} title="Include in scoring" aria-label="Include ${esc(c.id)} in scoring"></div>`; }).join("")}</div>`).join("")
-    + `<div class="card" style="padding:16px"><h3>Scoring scale (draft)</h3><div class="rf" style="color:var(--ink2)">0 = minimal · 1 = limited · 2 = significant · 3 = leading or globally significant.<br><br>Dimension score = mean of its included criteria, rescaled to 0–100. Overall = weighted mean of dimension scores. This sets the middle power tiers.<br><br><b>${n}</b> criteria currently in scoring.</div></div>`
-    + `<div class="card" style="padding:16px"><h3>Major power test (pilot)</h3><div class="rf" style="color:var(--ink2)">Runs first, on the 20 core criteria, for the 9 pilot actors only. Countries that do not pass go on to the middle power score.<br><br>
+    + `<div class="card" style="padding:16px"><h3>Scoring scale</h3><div class="rf" style="color:var(--ink2)">0 = minimal · 1 = limited · 2 = significant · 3 = leading or globally significant.<br><br>Dimension score = mean of its included criteria, rescaled to 0–100. Overall = weighted mean of dimension scores. This sets the middle power tiers.<br><br><b>${n}</b> criteria currently in scoring.</div></div>`
+    + `<div class="card" style="padding:16px"><h3>Major power test</h3><div class="rf" style="color:var(--ink2)">Runs first, on the 20 core criteria, for the 9 actors assessed so far. Countries that do not pass go on to the middle power score.<br><br>
       <b>Major power:</b> at least ${MAJOR_RULES.major.minTotal} criteria at the major power level, and at least ${DIMENSIONS.map(d=>`${MAJOR_RULES.major.minPerDim[d.id]} in ${d.id}`).join(", ")}.<br>
       <b>Emerging major power (watchlist):</b> at least ${MAJOR_RULES.emerging.minTotal} criteria at the major power level, but not Major.<br>
       <b>Borderline</b> results do not count toward the tier. They only widen the score range.<br><br>
-      The major power levels are proposals to test with Erik. Source of truth: docs/major-power-criteria.md.</div></div>`
+      Each criterion's major power level and its source are listed above.</div></div>`
     + `<div class="card" style="padding:16px"><h3>Planned methodology <span class="badge">not computed yet</span></h3><div class="rf" style="color:var(--ink2)">These rules are part of the plan. The dashboard does not compute any of them yet.<ul style="margin:8px 0 0;padding-left:18px">${MAJOR_METHOD_NOTES.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div></div>`
     + `<div class="card" style="padding:16px"><h3>Open decisions</h3><div class="rf" style="color:var(--ink2)"><ul style="margin:0;padding-left:18px"><li>Agree the major power levels for the qualitative criteria (2, 5, 10 to 15, 17 to 20).</li><li>Fix the compute measure for criterion 6 (B2): installed capacity or new chip arrivals.</li><li>Decide whether criterion 8 (B4) adds public AI investment, so that state funding is counted.</li><li>Confirm the 16-point line and the per-dimension condition after scoring the full test set.</li></ul></div></div>`;
   document.querySelectorAll("#fw .switch").forEach(cb=>cb.onchange=()=>{ S.off[cb.dataset.c] = !cb.checked; save(); refresh(); });
@@ -260,14 +260,55 @@ document.getElementById("openSettings").onclick=()=>document.getElementById("set
 document.getElementById("closeSettings").onclick=()=>document.getElementById("settings").classList.remove("on");
 document.getElementById("reset").onclick=()=>{ S=JSON.parse(JSON.stringify(DEFAULTS)); save(); renderSettings(); refresh(); };
 
+
+/* ---------- MAP PAGE: summary, guide and footer ---------- */
+function renderMapExtra(){
+  const nCrit = DIMENSIONS.reduce((a,d)=>a+d.criteria.filter(c=>!c.proposed).length,0);
+  const byTier = TIERS.map(t=>({t, list:COUNTRIES.filter(c=>c.tier===t.id).sort((a,b)=>b.overall-a.overall)}));
+  document.getElementById("mapExtra").innerHTML = `
+    <h2 class="sec">Who sits where</h2>
+    <p class="secsub">Every country in the test set, by tier. Select a name to open its card.</p>
+    <div class="tiergrid">${byTier.map(({t,list})=>`
+      <div class="card tg"><h3><i style="background:${t.hex}"></i>${t.name} <span class="n">${list.length}</span></h3>
+        <div class="rule">${t.rule(S.thr)}</div>
+        <div class="chips">${list.length ? list.map(c=>`<button class="chip" data-c="${esc(c.name)}">${esc(c.label)}</button>`).join("") : `<span class="hint">None at the current settings</span>`}</div>
+      </div>`).join("")}</div>
+    <h2 class="sec">How a country gets its tier</h2>
+    <div class="steps">
+      <div class="card"><span class="no">1</span><h3>Major power test</h3><p>Nine actors are first checked against ${MAJOR_RULES.major.minTotal} of 20 criteria at the major power level, with a minimum in every dimension. Anything short of that moves on.</p></div>
+      <div class="card"><span class="no">2</span><h3>Score the five dimensions</h3><p>Each country is assessed on ${nCrit} criteria across economic weight, compute capacity, diplomatic leverage, security and strategic weight, and AI governance. Each dimension is scored 0 to 100.</p></div>
+      <div class="card"><span class="no">3</span><h3>Place in a tier</h3><p>The overall score places a country as a strong middle power (${S.thr.strong} or above), a weak middle power (${S.thr.weak} to ${S.thr.strong-1}) or not a middle power. The cut-offs and weights can be changed under Scoring settings.</p></div>
+    </div>
+    <h2 class="sec">The five dimensions</h2>
+    <div class="dimgrid">${DIMENSIONS.map(d=>`<div class="card"><span class="no">${d.id}</span><h3>${d.name}</h3><ul>${d.criteria.filter(c=>!c.proposed).map(c=>`<li>${c.name}</li>`).join("")}</ul></div>`).join("")}</div>
+    <p class="hint" style="margin:14px 0 0">Open the Framework tab for the measure, major power level and source behind each criterion.</p>`;
+  document.getElementById("mapTiers").innerHTML = `
+    <div class="stats">
+      <div><b>${COUNTRIES.length}</b><span>countries scored</span></div>
+      <div><b>${DIMENSIONS.length}</b><span>dimensions</span></div>
+      <div><b>${nCrit}</b><span>core criteria</span></div>
+      <div><b>${Object.keys(MAJOR_PILOT).length + 1}</b><span>actors tested for major power status</span></div>
+    </div>
+    <div class="card readmap"><h3>Reading the map</h3><p>Each colour is a tier, set by the major power test first and then by the overall score. Grey countries are not in the test set yet. Click any country for its scores, or switch &ldquo;Colour by&rdquo; to see one dimension at a time.</p></div>`;
+  document.querySelectorAll("#mapTiers .chip, #mapExtra .chip").forEach(b=>b.onclick=()=>{ select(b.dataset.c); window.scrollTo({top:0,behavior:"smooth"}); });
+}
+document.getElementById("siteFooter").innerHTML = `
+  <div class="ft">
+    <div><strong>AI Middle Powers Explorer</strong><p>A research project of the BASE Fellowship on how middle powers shape international AI governance.</p></div>
+    <div><strong>Team</strong><p>Kamilah Idris and Chris Agape Ajah<br>Mentor: Erik Leklem, AI governance</p></div>
+    <div><strong>About the scores</strong><p>Country scores are 0 to 3 assessments by the research team, to be replaced with sourced data where a criterion can be measured. Major power results follow the team&rsquo;s published criteria. Tier cut-offs are adjustable.</p></div>
+    <div><strong>Explore</strong><p><a href="#map">Map</a> · <a href="#explore">Data</a> · <a href="#candidates">Candidates</a> · <a href="#framework">Framework</a> · <a href="#findings">Findings</a></p></div>
+  </div>`;
+
 /* ---------- ROUTING ---------- */
 function route(){
+  const fbNav = document.getElementById("navFeedback"); if (fbNav) fbNav.hidden = !feedbackConfigured();   // hide the tab until a form service is connected
   const v = (location.hash||"#map").slice(1);
-  const ok = ["map","explore","candidates","framework","findings","feedback"].includes(v) ? v : "map";
+  const ok = ["map","explore","candidates","framework","findings"].concat(feedbackConfigured() ? ["feedback"] : []).includes(v) ? v : "map";
   document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on", s.id==="v-"+ok));
   document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on", a.dataset.v===ok));
 }
 window.addEventListener("hashchange", route);
 
-function refresh(redrawFw=true){ compute(); renderMap(); renderCard(); renderTable(); renderCandidates(); if (redrawFw) renderFramework(); }
+function refresh(redrawFw=true){ compute(); renderMap(); renderCard(); renderTable(); renderCandidates(); renderMapExtra(); if (redrawFw) renderFramework(); }
 renderSettings(); refresh(); route();

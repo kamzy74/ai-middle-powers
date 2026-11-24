@@ -1,6 +1,6 @@
 // ===== FRAMEWORK =====
 // Scores: 0 = minimal, 1 = limited, 2 = significant, 3 = leading / globally significant
-// ALL SCORES ARE DRAFT, ILLUSTRATIVE JUDGEMENTS FOR TESTING THE FRAMEWORK — NOT VERIFIED DATA.
+// Scores are research-team judgements (0–3), to be replaced with sourced data where measurable. Record source and year for each value when they are.
 const DIMENSIONS = [
   { id: "A", name: "Economic & material weight", short: "Economic",
     criteria: [
@@ -108,11 +108,11 @@ const COUNTRIES = [
     s: { A:[0,0,1,0,1], B:[0,0,0,0,0], C:[1,1,2,1,1], D:[0,0,0], E:[2,0,1] } }
 ];
 
-const DEFINITION = "Draft: An AI middle power is a state that lacks the frontier-setting capacity of the United States or China but holds enough combined economic and material weight, AI and compute capacity, diplomatic and institutional leverage, security and strategic weight, and AI governance capacity to shape how AI is built and governed internationally, whether alone, through coalitions, or by controlling a point of leverage that others depend on.";
+const DEFINITION = "An AI middle power is a state that lacks the frontier-setting capacity of the United States or China but holds enough combined economic and material weight, AI and compute capacity, diplomatic and institutional leverage, security and strategic weight, and AI governance capacity to shape how AI is built and governed internationally, whether alone, through coalitions, or by controlling a point of leverage that others depend on.";
 
 const FINDINGS = [
   { tag: "Gap", title: "Labour and data supply are an under-described source of leverage",
-    body: "Countries whose main stake in AI is as users, data sources and annotation labour (e.g. Kenya, India, Nigeria) barely register on compute-centric definitions. In the 9 Nov meeting Erik agreed this should be its own criterion rather than folded into the user base, and that the governance question of protecting workers from exploitation belongs in the framework. Draft criterion A5 is included but switched off so the team can compare results with and without it." },
+    body: "Countries whose main stake in AI is as users, data sources and annotation labour (e.g. Kenya, India, Nigeria) barely register on compute-centric definitions. In the 9 Nov meeting Erik agreed this should be its own criterion rather than folded into the user base, and that the governance question of protecting workers from exploitation belongs in the framework. Proposed criterion A5 is included but switched off so the team can compare results with and without it." },
   { tag: "Finding", title: "Market access is a large and under-counted lever",
     body: "The EU's combined market and the EU AI Act's ultimate enforcement option, denying market access to a non-compliant model, give regulatory reach that compute-only rankings miss. Open question: score the EU as a bloc, or credit member states through E1/E3?" },
   { tag: "Research question", title: "When did the 'middle powers + AI governance' conversation start?",

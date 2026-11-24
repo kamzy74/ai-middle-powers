@@ -16,7 +16,8 @@ An interactive explorer for a BASE Fellowship research project: defining "AI mid
 - URLs marked `confirm: true` were added by us, not taken from the spec. Chris to confirm.
 
 ## Data rules
-- All scores in `js/data.js` are PLACEHOLDERS (0–3 judgements). Never present them as findings, and keep the "Draft scores" banner until real data replaces them.
+- All scores in `js/data.js` are still 0–3 team judgements, not sourced data. The public site no longer says "draft" (owner decision, Nov 2026), but never describe the scores as verified findings: the footer "About the scores" note must stay accurate until real data replaces them.
+- The Feedback tab is hidden until `FEEDBACK_FORM_URL` in `data/feedback-config.js` is set.
 - When adding real data, record the source and year for each value.
 
 ## Open decisions (from mentor meetings, Nov 2026)
